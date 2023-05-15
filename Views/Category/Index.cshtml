@@ -1,0 +1,75 @@
+﻿@model WebApplication1.Models.CategoryPhoto
+
+@using (Html.BeginForm("GetPhotos", "Category", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <select name="category">
+        @if (Model.photos is not null)
+        {
+            @if (Model.photos.Count > 0)
+            {
+                <option value=""> @Model.photos[0].Category</option>
+            }
+            else
+            {
+                <option value=""> Choose Category</option>
+            }
+        }
+        else
+        {
+            <option value=""> Choose Category</option>
+        }
+        @foreach (var category in Model.category.Categories)
+        {
+            <option value="@category">@category</option>
+        }
+    </select>
+    <button type="submit">Get Photos</button>
+
+    <!-- add a hidden field containing the list of categories -->
+    <input type="hidden" name="categories" value="[@string.Join(",", Model.category.Categories)]" />
+}
+
+@if (Model.photos != null){
+
+    <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                    @Html.DisplayNameFor(model => Model.photos[0].Category)
+                    </th>
+                    <th>
+                        Image
+                    </th>
+                    <th>
+                    @Html.DisplayNameFor(model => Model.photos[0].Description)
+                    </th>
+                    <th>
+                    @Html.DisplayNameFor(model => Model.photos[0].DateAdded)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.photos)
+            {
+                        <tr>
+                            <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                            </td>
+                            <td>
+                        <img src="@Url.Content(item.ImagePath.Contains("/Image/") ? item.ImagePath.Replace("/Image/", "/Image/Thumbnail/") : item.ImagePath)" multiple />
+                            </td>
+                            <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                        @Html.DisplayFor(modelItem => item.DateAdded)
+                            </td>
+                        </tr>
+            }
+            </tbody>
+        </table>
+
+}

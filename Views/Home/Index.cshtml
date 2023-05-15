@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebApplication1.Models.Photos>
+@{
+    ViewData["Title"] = "Home Page";
+}
+@inject IHttpContextAccessor Accessor;
+<div class="text-center">
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category)
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateAdded)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td>
+                        <img src="@Url.Content(item.ImagePath.Contains("/Image/") ? item.ImagePath.Replace("/Image/", "/Image/Thumbnail/") : item.ImagePath)" multiple />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateAdded)
+                    </td>
+                    <td>
+                        
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        
+                        @if (@Accessor.HttpContext.Session.GetString("Type") == "Admin")
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

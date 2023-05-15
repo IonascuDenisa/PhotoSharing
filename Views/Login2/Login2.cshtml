@@ -1,0 +1,31 @@
+﻿@model User
+
+<body>
+    <div class="border p-3 mt-4">
+		<div class="row p-2">
+			<h2 class="text-primary">Log in</h2>
+			
+		</div>
+    @using (Html.BeginForm("Login2", "Login2", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+         <div class="mb-3">
+			<label asp-for="Name"></label>
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", id = "UserName", placeholder = "", required = "required", autofocus = "autofocus" })
+                <span asp-validation-for="Name" class="text-danger"></span>
+       </div>
+        <div class="mb-3">
+			<label asp-for="Password"></label>
+        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", type = "password", placeholder = "", required = "" })
+                
+                <span asp-validation-for="Password" class="text-danger"></span>
+                
+        </div>
+       <button type="submit" class="btn btn-primary" style="width150px">Sign In</button>
+      
+
+    }
+    
+    </div>
+</body>
